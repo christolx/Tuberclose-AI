@@ -1,34 +1,33 @@
 # 🩺 Tuberculosis Detection System using ResNet50 (Transfer Learning)
 
-Sistem deteksi tuberkulosis (TB) berbasis **Deep Learning** yang menggunakan **Transfer Learning ResNet50** dengan pendekatan **fine-tuning** untuk membantu skrining awal TB dari **Chest X-ray (CXR)** secara cepat dan konsisten melalui aplikasi web.
+An AI-based tuberculosis (TB) detection system utilizing **Deep Learning** with **ResNet50 Transfer Learning** and **fine-tuning** to support early TB screening from **Chest X-ray (CXR)** images through a web-based application.
 
 ---
 
-## 📌 Latar Belakang
+## 📌 Background
 
-Tuberkulosis (TB) masih menjadi masalah kesehatan serius, khususnya di Indonesia.  
-Interpretasi X-ray dada secara manual:
+Tuberculosis (TB) remains a major global health problem, especially in developing countries like Indonesia. Manual interpretation of chest X-rays:
 
-- Sangat subjektif  
-- Bergantung pada pengalaman radiolog  
-- Tidak merata di daerah terpencil  
-- Rentan kesalahan pada kasus TB tahap awal  
+- Is highly subjective  
+- Depends heavily on radiologist experience  
+- Suffers from limited availability of specialists  
+- Is prone to missed early-stage TB cases  
 
-Proyek ini membangun **Computer-Aided Diagnosis (CAD)** berbasis AI untuk membantu tenaga medis melakukan **skrining awal TB** secara objektif dan efisien.
-
----
-
-## 🎯 Tujuan Proyek
-
-- Mengembangkan model CNN berbasis **ResNet50 pretrained**
-- Menerapkan **transfer learning + fine-tuning**
-- Klasifikasi **Normal vs Tuberculosis**
-- Integrasi ke **aplikasi web**
-- Optimasi **recall TB** (minim false negative)
+This project aims to build an **AI-powered Computer-Aided Diagnosis (CAD)** system to assist healthcare workers in performing **fast, consistent, and objective TB screening**.
 
 ---
 
-## 🧠 Teknologi & Tools
+## 🎯 Project Objectives
+
+- Develop a CNN model based on **pretrained ResNet50**
+- Apply **transfer learning and fine-tuning**
+- Perform binary classification (**Normal vs Tuberculosis**)
+- Integrate the model into a **web-based system**
+- Optimize **TB recall** to minimize false negatives
+
+---
+
+## 🧠 Technologies & Tools
 
 ### Machine Learning
 - PyTorch
@@ -47,56 +46,56 @@ Proyek ini membangun **Computer-Aided Diagnosis (CAD)** berbasis AI untuk memban
 
 ## 🗂️ Dataset
 
-- Sumber: Kaggle – Chest X-ray Tuberculosis Dataset
-- Kelas:
+- Source: Kaggle – Chest X-ray Tuberculosis Dataset
+- Classes:
   - Normal
   - Tuberculosis
-- Split data:
+- Data split:
   - 80% Training
   - 20% Validation (Stratified)
 
 ---
 
-## 🔄 Preprocessing & Augmentasi
+## 🔄 Preprocessing & Augmentation
 
-- Resize → 256 px  
-- Center Crop → 224 × 224  
-- Normalisasi ImageNet  
+- Resize to 256 px  
+- Center Crop to 224 × 224  
+- ImageNet normalization  
 - Random Horizontal Flip  
 - Random Rotation (±10°)  
 - Color Jitter (brightness & contrast)  
-- WeightedRandomSampler untuk class imbalance  
+- WeightedRandomSampler for class imbalance  
 
-Tetap menggunakan **RGB (3 channel)** untuk menjaga detail tekstur paru-paru.
+All images are kept in **RGB (3 channels)** to preserve subtle lung texture details critical for TB detection.
 
 ---
 
-## 🏗️ Arsitektur Model
+## 🏗️ Model Architecture
 
 - Base model: **ResNet50**
-- Layer awal dibekukan
-- Layer 3, Layer 4, dan Fully Connected di-fine-tune
+- Early layers frozen
+- Layer 3, Layer 4, and Fully Connected layers fine-tuned
 
-### Training Setup
+### Training Configuration
 - Optimizer: Adam  
 - Learning rate: `1e-4`  
-- Max epoch: 30  
+- Maximum epochs: 30  
 - Scheduler: ReduceLROnPlateau  
 - Early Stopping  
-- Kill-switch jika training accuracy > 99.5%
+- Training kill-switch if accuracy exceeds 99.5%
 
 ---
 
-## 📊 Hasil Evaluasi (External Dataset)
+## 📊 Evaluation Results (External Dataset)
 
-### Model Kami (PyTorch)
+### Our Model (PyTorch)
 
-- Accuracy: **93.38%**
-- TB Recall: **95.63%**
-- F1-Score (TB): **0.9600**
-- ROC AUC: **0.9666**
+- **Accuracy**: 93.38%
+- **TB Recall**: 95.63%
+- **F1-Score (TB)**: 0.9600
+- **ROC AUC**: 0.9666
 
-### Model Pembanding (Keras)
+### Baseline Model (Keras)
 
 - Accuracy: 91.69%
 - TB Recall: 92.46%
@@ -107,41 +106,41 @@ Tetap menggunakan **RGB (3 channel)** untuk menjaga detail tekstur paru-paru.
 
 ## 📉 Confusion Matrix (External Data)
 
-| Kategori | Model Kami | Model Lain |
-|--------|-----------|-----------|
+| Category | Our Model | Baseline Model |
+|--------|-----------|----------------|
 | True Normal (TN) | 424 | 452 |
 | False Positive (FP) | 90 | 62 |
 | False Negative (FN) | **109** | **188** |
 | True TB (TP) | **2385** | 2306 |
 
-Dalam konteks medis, **False Negative jauh lebih berbahaya**, dan model ini unggul dalam menekan FN.
+In medical diagnostics, **false negatives are significantly more dangerous** than false positives. This model demonstrates superior performance in minimizing missed TB cases.
 
 ---
 
-## 🌐 Sistem Berbasis Web
+## 🌐 Web-Based System
 
-Alur penggunaan:
-1. Upload X-ray dada
-2. Backend preprocessing & inferensi
+Workflow:
+1. User uploads a chest X-ray image
+2. Backend performs preprocessing and inference
 3. Output:
-   - Klasifikasi (Normal / TB)
-   - Confidence score
+   - Classification result (Normal / Tuberculosis)
+   - Prediction confidence score
 
-Tidak perlu instalasi tambahan di sisi user.
-
----
-
-## 🚀 Pengembangan Lanjutan
-
-- Dataset multi-device X-ray
-- Multi-class classification (TB vs pneumonia, dll)
-- Integrasi Sistem Informasi Rumah Sakit (SIRS)
-- Aplikasi mobile
-- Uji klinis lapangan
+No additional software installation is required on the user side.
 
 ---
 
-## 👨‍💻 Tim Pengembang
+## 🚀 Future Improvements
+
+- More diverse datasets from multiple X-ray devices
+- Multi-class classification (TB vs pneumonia vs others)
+- Integration with Hospital Information Systems (HIS)
+- Mobile application development
+- Clinical field testing in healthcare facilities
+
+---
+
+## 👨‍💻 Development Team
 
 - Christofle Tjhai  
 - Nicholas Wilson Andrean  
@@ -153,4 +152,5 @@ BINUS University
 
 ## ⚠️ Disclaimer
 
-Sistem ini **bukan pengganti diagnosis dokter**, melainkan **alat bantu skrining awal**.
+This system is **not a replacement for professional medical diagnosis**.  
+It is intended as a **decision-support tool for early TB screening** only.
